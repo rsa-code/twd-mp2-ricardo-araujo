@@ -51,14 +51,6 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <section className="py-24 border-y border-zinc-900 flex flex-col items-center justify-center text-center space-y-6 bg-zinc-950/50">
-          <p className="text-2xl md:text-4xl font-serif text-zinc-400 max-w-3xl leading-relaxed">
-            "Hey, Nana... Do you remember the first time we met?"
-          </p>
-          <div className="w-24 h-1 bg-rose-600" />
-      </section>
-
-
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-24 space-y-32">
                 <section>
            <div className="flex justify-center mb-12 space-x-8">
@@ -80,11 +72,13 @@ const App: React.FC = () => {
         </section>
       </main>
 
-      <footer className="bg-zinc-900 py-12 border-t border-zinc-800">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-cinzel font-bold text-white mb-4">NANA</h2>
-        </div>
-      </footer>
+        <section className="py-24 border-y border-zinc-900 flex flex-col items-center justify-center text-center space-y-6 bg-zinc-950/50">
+          <p className="text-2xl md:text-4xl font-serif text-zinc-400 max-w-3xl leading-relaxed">
+            "Hey, Nana... Do you remember the first time we met?"
+          </p>
+          <div className="w-24 h-1 bg-rose-600" />
+        </section>
+
     </div>
   );
 };
