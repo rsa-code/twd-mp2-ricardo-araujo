@@ -19,11 +19,6 @@ export const MediaCard: React.FC<MediaCardProps> = ({ media, align = 'left' }) =
           alt={media.title.english || media.title.romaji} 
           className="relative w-full rounded-sm shadow-2xl object-cover aspect-[2/3]"
         />
-        {media.averageScore && (
-          <div className="absolute -bottom-4 -right-4 bg-rose-600 text-white px-4 py-2 font-bold text-xl z-20 font-cinzel">
-            {media.averageScore}%
-          </div>
-        )}
       </div>
 
       <div className="w-full lg:w-2/3 space-y-6">
@@ -47,7 +42,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({ media, align = 'left' }) =
           dangerouslySetInnerHTML={{ __html: media.description || 'No description available.' }}
         />
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-zinc-800">
+        <div className="grid grid-cols-2 md:grid-cols-4 pt-6 border-t border-zinc-800">
           <div className="flex flex-col">
             <span className="text-zinc-500 text-xs uppercase tracking-widest">Format</span>
             <span className="font-bold flex items-center gap-2">
@@ -57,7 +52,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({ media, align = 'left' }) =
           </div>
           <div className="flex flex-col">
             <span className="text-zinc-500 text-xs uppercase tracking-widest">Status</span>
-            <span className={`font-bold uppercase ${media.status === 'FINISHED' ? 'text-green-500' : 'text-yellow-500'}`}>
+            <span className={`font-bold uppercase ${media.status === 'FINISHED'}`}>
               {media.status}
             </span>
           </div>
@@ -71,7 +66,7 @@ export const MediaCard: React.FC<MediaCardProps> = ({ media, align = 'left' }) =
           </div>
           <div className="flex flex-col">
             <span className="text-zinc-500 text-xs uppercase tracking-widest">Rating</span>
-            <span className="font-bold flex items-center gap-2 text-yellow-500">
+            <span className="font-bold flex items-center gap-2">
               <Star size={16} fill="currentColor" />
               {media.averageScore ? media.averageScore / 10 : 'N/A'}
             </span>
