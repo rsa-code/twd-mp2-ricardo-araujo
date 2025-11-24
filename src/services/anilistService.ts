@@ -2,7 +2,6 @@ import { AniListResponse, Media } from '../types';
 
 const ANILIST_API_URL = 'https://graphql.anilist.co';
 
-// IDs for NANA: Anime = 877, Manga = 30028
 const QUERY = `
 query {
   anime: Media(id: 877, type: ANIME) {

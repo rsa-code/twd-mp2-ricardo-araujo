@@ -3,6 +3,8 @@ import { fetchNanaData } from './services/anilistService';
 import { Media } from './types';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { MediaCard } from './components/MediaCard';
+import { Navbar } from './components/Navbar';
+
 
 const App: React.FC = () => {
   const [data, setData] = useState<{ anime: Media; manga: Media } | null>(null);
@@ -30,6 +32,9 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-rose-900 selection:text-white overflow-x-hidden">
+
+       <div className="...">
+        <Navbar />
       
       <header className="relative h-screen w-full overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0 z-0">
@@ -42,11 +47,11 @@ const App: React.FC = () => {
         </div>
         
         <div className="relative z-10 text-center px-4 max-w-4xl">
-          <h1 className="text-7xl md:text-9xl font-black font-cinzel tracking-tighter text-white mb-4 text-glow">
+          <h1 className="text-7xl md:text-9xl font-black font-cinzel tracking-tighter text-white mb-4">
             NANA
           </h1>
           <p className="text-xl md:text-2xl font-light tracking-[0.3em] uppercase text-zinc-400 border-y border-zinc-800 py-4 inline-block">
-            Love. Music. Friendship. Heartbreak.
+            Hey, Nana... Do you remember the first time we met?
           </p>
         </div>
       </header>
@@ -72,13 +77,7 @@ const App: React.FC = () => {
         </section>
       </main>
 
-        <section className="py-24 border-y border-zinc-900 flex flex-col items-center justify-center text-center space-y-6 bg-zinc-950/50">
-          <p className="text-2xl md:text-4xl font-serif text-zinc-400 max-w-3xl leading-relaxed">
-            "Hey, Nana... Do you remember the first time we met?"
-          </p>
-          <div className="w-24 h-1 bg-rose-600" />
-        </section>
-
+      </div>
     </div>
   );
 };
