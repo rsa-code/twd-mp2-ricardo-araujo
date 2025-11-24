@@ -17,9 +17,7 @@ export const Navbar: React.FC = () => {
 
   const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'Episodes (AniList)', href: '/episodes' },
-    { name: 'Episodes (AniDB)', href: '/anidb-episodes' },
-    { name: 'Episodes (Jikan)', href: '/jikan-episodes' },
+    { name: 'Episodes', href: '/jikan-episodes' },
   ];
 
   return (
