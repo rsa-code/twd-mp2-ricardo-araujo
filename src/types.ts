@@ -17,6 +17,13 @@ export interface CharacterConnection {
   }[];
 }
 
+export interface StreamingEpisode {
+  title: string;
+  thumbnail: string;
+  url: string;
+  site: string;
+}
+
 export interface Media {
   id: number;
   title: {
@@ -38,6 +45,7 @@ export interface Media {
   episodes?: number | null;
   chapters?: number | null;
   status: string;
+  streamingEpisodes?: StreamingEpisode[];
   characters: CharacterConnection;
 }
 
@@ -53,4 +61,26 @@ export interface ChatMessage {
   role: 'user' | 'model';
   text: string;
   isError?: boolean;
+}
+
+export interface AniDBEpisode {
+  id: string;
+  episodeNumber: string;
+  title: string;
+  airDate: string;
+  length: string;
+  rating: string;
+}
+
+export interface JikanEpisode {
+  mal_id: number;
+  url: string;
+  title: string;
+  title_japanese: string;
+  title_romanji: string;
+  aired: string;
+  score: number;
+  filler: boolean;
+  recap: boolean;
+  forum_url: string;
 }
