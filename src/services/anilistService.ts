@@ -24,6 +24,12 @@ query {
     format
     episodes
     status
+    streamingEpisodes {
+      title
+      thumbnail
+      url
+      site
+    }
     characters(sort: [ROLE], perPage: 12) {
       edges {
         role
