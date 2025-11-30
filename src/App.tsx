@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { JikanEpisodes } from './pages/JikanEpisodes';
+import { NanaVolumes } from './pages/NanaVolumes';
 import { Navbar } from './components/Navbar';
 
 const App: React.FC = () => {
@@ -12,6 +13,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/jikan-episodes" element={<JikanEpisodes />} />
+          <Route path="/nana-volumes" element={<NanaVolumes />} />
         </Routes>
       </div>
     </Router>

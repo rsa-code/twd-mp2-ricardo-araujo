@@ -56,22 +56,6 @@ export interface AniListResponse {
   };
 }
 
-export interface ChatMessage {
-  id: string;
-  role: 'user' | 'model';
-  text: string;
-  isError?: boolean;
-}
-
-export interface AniDBEpisode {
-  id: string;
-  episodeNumber: string;
-  title: string;
-  airDate: string;
-  length: string;
-  rating: string;
-}
-
 export interface JikanEpisode {
   mal_id: number;
   url: string;
@@ -83,4 +67,17 @@ export interface JikanEpisode {
   filler: boolean;
   recap: boolean;
   forum_url: string;
+}
+
+export interface JikanImage {
+  jpg: {
+    image_url: string;
+    small_image_url: string;
+    large_image_url: string;
+  };
+  webp: {
+    image_url: string;
+    small_image_url: string;
+    large_image_url: string;
+  };
 }

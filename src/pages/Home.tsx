@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { fetchNanaData } from '../services/anilistService';
 import { Media } from '../types';
-import { LoadingSpinner } from '../components/LoadingSpinner';
 import { MediaCard } from '../components/MediaCard';
+import { LoadingSpinner } from '../components/LoadingSpinner';
 
 export const Home: React.FC = () => {
   const [data, setData] = useState<{ anime: Media; manga: Media } | null>(null);
@@ -11,15 +11,21 @@ export const Home: React.FC = () => {
 
   useEffect(() => {
     const init = async () => {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      const result = await fetchNanaData();
-      setData(result);
-      setLoading(false);
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        const result = await fetchNanaData();
+        setData(result);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
     };
     init();
   }, []);
 
   if (loading) return <LoadingSpinner />;
+
   if (!data) return (
     <div className="h-screen flex flex-col items-center justify-center bg-zinc-950 text-rose-600">
       <p className="mt-4 font-cinzel text-xl">Failed to load the broken dreams.</p>
@@ -44,7 +50,7 @@ export const Home: React.FC = () => {
           <h1 className="text-7xl md:text-9xl font-black font-cinzel tracking-tighter text-white mb-4">
             NANA
           </h1>
-          <p className="text-xl md:text-2xl font-light tracking-[0.3em] uppercase text-zinc-400 border-y border-zinc-800 py-4 inline-block">
+          <p className="text-xl md:text-2xl tracking-[0.3em] uppercase text-zinc-400 border-y border-zinc-800 py-4 inline-block">
             Hey, Nana... Do you remember the first time we met?
           </p>
         </div>
