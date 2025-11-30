@@ -8,7 +8,7 @@ interface MangaVolumeCardProps {
 
 export const MangaVolumeCard: React.FC<MangaVolumeCardProps> = ({ image, index }) => {
   return (
-    <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg overflow-hidden hover:border-rose-600/50 transition-all duration-300 group">
+    <div className="bg-zinc-900/50 border border-zinc-800 overflow-hidden hover:border-rose-600/50 transition-all duration-300 group">
       <div className="relative aspect-[2/3] overflow-hidden">
         <img 
           src={image.webp.large_image_url || image.jpg.large_image_url} 

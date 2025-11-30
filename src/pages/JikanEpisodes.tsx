@@ -38,7 +38,7 @@ export const JikanEpisodes: React.FC = () => {
         </div>
         
         {error ? (
-          <div className="text-center py-20 border border-rose-900/30 rounded-lg bg-rose-950/10">
+          <div className="text-center py-20 border border-rose-900/30 bg-rose-950/10">
             <p className="text-rose-500 text-xl font-cinzel">{error}</p>
           </div>
         ) : (
@@ -51,7 +51,7 @@ export const JikanEpisodes: React.FC = () => {
                     <JikanEpisodeCard key={episode.mal_id} episode={episode} />
                   ))
               ) : (
-                <div className="col-span-full text-center py-12 border border-zinc-800 rounded-lg bg-zinc-900/30">
+                <div className="col-span-full text-center py-12 border border-zinc-800 bg-zinc-900/30">
                   <p className="text-zinc-400">No episodes found.</p>
                 </div>
               )}
@@ -62,7 +62,7 @@ export const JikanEpisodes: React.FC = () => {
                 <button
                   onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                   disabled={currentPage === 1}
-                  className="px-6 py-2 bg-zinc-900 border border-zinc-800 rounded-lg hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-cinzel text-sm"
+                  className="px-6 py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-cinzel text-sm"
                 >
                   Previous
                 </button>
@@ -74,7 +74,7 @@ export const JikanEpisodes: React.FC = () => {
                 <button
                   onClick={() => setCurrentPage((prev) => Math.min(prev + 1, Math.ceil(episodes.length / itemsPerPage)))}
                   disabled={currentPage === Math.ceil(episodes.length / itemsPerPage)}
-                  className="px-6 py-2 bg-zinc-900 border border-zinc-800 rounded-lg hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-cinzel text-sm"
+                  className="px-6 py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-cinzel text-sm"
                 >
                   Next
                 </button>

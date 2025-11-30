@@ -36,7 +36,7 @@ export const NanaVolumes: React.FC = () => {
         </div>
         
         {error ? (
-          <div className="text-center py-20 border border-rose-900/30 rounded-lg bg-rose-950/10">
+          <div className="text-center py-20 border border-rose-900/30 bg-rose-950/10">
             <p className="text-rose-500 text-xl font-cinzel">{error}</p>
           </div>
         ) : (
@@ -46,7 +46,7 @@ export const NanaVolumes: React.FC = () => {
                 <MangaVolumeCard key={index} image={image} index={index} />
               ))
             ) : (
-              <div className="col-span-full text-center py-12 border border-zinc-800 rounded-lg bg-zinc-900/30">
+              <div className="col-span-full text-center py-12 border border-zinc-800 bg-zinc-900/30">
                 <p className="text-zinc-400">No volumes found.</p>
               </div>
             )}

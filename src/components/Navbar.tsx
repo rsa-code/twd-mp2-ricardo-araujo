@@ -17,6 +17,7 @@ export const Navbar: React.FC = () => {
 
   const navLinks = [
     { name: 'Home', href: '/' },
+    { name: 'Characters', href: '/characters' },
     { name: 'Anime Episodes', href: '/jikan-episodes' },
     { name: 'Manga Volumes', href: '/nana-volumes' },
   ];
