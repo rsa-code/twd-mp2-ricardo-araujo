@@ -14,7 +14,7 @@ export const JikanEpisodeCard: React.FC<JikanEpisodeCardProps> = ({ episode }) =
   });
 
   return (
-    <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-6 hover:border-rose-600/50 transition-all duration-300 group relative overflow-hidden">
+    <div className="bg-zinc-900/50 border border-zinc-800 p-6 hover:border-rose-600/50 transition-all duration-300 group relative overflow-hidden">
 
       <div className="flex flex-col gap-4">
         <div className="flex items-baseline gap-4">
