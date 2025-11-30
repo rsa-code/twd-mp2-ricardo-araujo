@@ -1,4 +1,4 @@
-import { JikanEpisode } from '../types';
+import { JikanEpisode, JikanImage } from '../types';
 
 const JIKAN_API_BASE = 'https://api.jikan.moe/v4';
 
@@ -12,6 +12,41 @@ export const fetchJikanEpisodes = async (malId: number = 877): Promise<JikanEpis
     return json.data || [];
   } catch (error) {
     console.error('Error fetching Jikan episodes:', error);
+    return [];
+  }
+};
+
+export const fetchNanaVolumes = async (): Promise<JikanImage[]> => {
+  try {
+    // Nana Manga ID is 28
+    const [detailsResponse, picturesResponse] = await Promise.all([
+      fetch(`${JIKAN_API_BASE}/manga/28`),
+      fetch(`${JIKAN_API_BASE}/manga/28/pictures`)
+    ]);
+
+    if (!detailsResponse.ok || !picturesResponse.ok) {
+      throw new Error('Failed to fetch Nana data from Jikan');
+    }
+
+    const detailsJson = await detailsResponse.json();
+    const picturesJson = await picturesResponse.json();
+
+    const totalVolumes = detailsJson.data.volumes || 0;
+    const mainImage = detailsJson.data.images;
+    const pictures = picturesJson.data || [];
+
+    // Create an array of the total volumes
+    const allVolumes: JikanImage[] = Array.from({ length: totalVolumes }, (_, index) => {
+      // Use specific picture if available, otherwise use main cover
+      if (index < pictures.length) {
+        return pictures[index];
+      }
+      return mainImage;
+    });
+
+    return allVolumes;
+  } catch (error) {
+    console.error('Error fetching Nana volumes:', error);
     return [];
   }
 };

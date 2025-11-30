@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { fetchJikanEpisodes } from '../services/jikanService';
 import { JikanEpisode } from '../types';
-import { LoadingSpinner } from '../components/LoadingSpinner';
 import { JikanEpisodeCard } from '../components/JikanEpisodeCard';
+import { LoadingSpinner } from '../components/LoadingSpinner';
 
 export const JikanEpisodes: React.FC = () => {
   const [episodes, setEpisodes] = useState<JikanEpisode[]>([]);
