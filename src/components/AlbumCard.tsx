@@ -1,6 +1,6 @@
 import React from 'react';
 import { DeezerAlbum } from '../services/deezerService';
-import { Play, ExternalLink } from 'lucide-react';
+import { Play, } from 'lucide-react';
 
 interface AlbumCardProps {
   album: DeezerAlbum;
@@ -63,7 +63,7 @@ export const AlbumCard: React.FC<AlbumCardProps> = ({ album }) => {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-zinc-400 hover:text-rose-600 transition-colors"
             >
-              Listen on Deezer <ExternalLink size={14} />
+              Listen on Deezer
             </a>
         </div>
       </div>
