@@ -155,7 +155,14 @@ interface NanaMediaResponse {
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "/" }),
-  tagTypes: ["Characters", "Episodes", "Media", "Volumes", "Album", "BandMembers"],
+  tagTypes: [
+    "Characters",
+    "Episodes",
+    "Media",
+    "Volumes",
+    "Album",
+    "BandMembers",
+  ],
   endpoints: (builder) => ({
     getNanaMedia: builder.query<NanaMediaResponse, void>({
       queryFn: async () => {
@@ -332,7 +339,9 @@ export const apiSlice = createApi({
           },
         };
       },
-      providesTags: (_result, _error, albumId) => [{ type: "Album", id: albumId }],
+      providesTags: (_result, _error, albumId) => [
+        { type: "Album", id: albumId },
+      ],
     }),
 
     getNanaVolumes: builder.query<JikanImage[], void>({

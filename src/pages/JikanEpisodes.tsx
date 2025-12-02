@@ -133,11 +133,14 @@ export const JikanEpisodes: React.FC = () => {
                 <option value="all" className="bg-zinc-900 text-white">
                   All Episodes
                 </option>
-                <option value="favorites" className="bg-zinc-900 text-white">Favorites Only
+                <option value="favorites" className="bg-zinc-900 text-white">
+                  Favorites Only
                 </option>
-                <option value="watched" className="bg-zinc-900 text-white">Watched Only
+                <option value="watched" className="bg-zinc-900 text-white">
+                  Watched Only
                 </option>
-                <option value="unwatched" className="bg-zinc-900 text-white">Unwatched Only
+                <option value="unwatched" className="bg-zinc-900 text-white">
+                  Unwatched Only
                 </option>
               </select>
             </div>
@@ -175,12 +178,18 @@ export const JikanEpisodes: React.FC = () => {
               <div className="flex items-center gap-4 ml-auto">
                 <div className="flex items-center gap-2 text-sm">
                   <span className="text-zinc-400">
-                    <span className="text-rose-400 font-bold">{favoriteCount}</span> favorites
+                    <span className="text-rose-400 font-bold">
+                      {favoriteCount}
+                    </span>{" "}
+                    favorites
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <span className="text-zinc-400">
-                    <span className="text-emerald-400 font-bold">{watchedCount}</span> watched
+                    <span className="text-emerald-400 font-bold">
+                      {watchedCount}
+                    </span>{" "}
+                    watched
                   </span>
                 </div>
               </div>

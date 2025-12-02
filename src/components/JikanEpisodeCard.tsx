@@ -91,7 +91,11 @@ export const JikanEpisodeCard: React.FC<JikanEpisodeCardProps> = ({
                 ? "bg-rose-900/50 border-rose-700 text-rose-200"
                 : "bg-zinc-800/50 border-zinc-700 text-zinc-400 hover:border-rose-600 hover:text-rose-400"
             }`}
-            title={episodeStatus.isFavorite ? "Remove from favorites" : "Add to favorites"}
+            title={
+              episodeStatus.isFavorite
+                ? "Remove from favorites"
+                : "Add to favorites"
+            }
           >
             <Heart
               size={14}
@@ -107,7 +111,9 @@ export const JikanEpisodeCard: React.FC<JikanEpisodeCardProps> = ({
                 ? "bg-emerald-900/50 border-emerald-700 text-emerald-200"
                 : "bg-zinc-800/50 border-zinc-700 text-zinc-400 hover:border-emerald-600 hover:text-emerald-400"
             }`}
-            title={episodeStatus.isWatched ? "Mark as unwatched" : "Mark as watched"}
+            title={
+              episodeStatus.isWatched ? "Mark as unwatched" : "Mark as watched"
+            }
           >
             <Eye
               size={14}
