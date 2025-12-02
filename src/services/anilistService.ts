@@ -1,6 +1,6 @@
-import { AniListResponse, Media } from '../types';
+import { AniListResponse, Media } from "../types";
 
-const ANILIST_API_URL = 'https://graphql.anilist.co';
+const ANILIST_API_URL = "https://graphql.anilist.co";
 
 const QUERY = `
 query {
@@ -87,27 +87,30 @@ query {
 }
 `;
 
-export const fetchNanaData = async (): Promise<{ anime: Media; manga: Media } | null> => {
+export const fetchNanaData = async (): Promise<{
+  anime: Media;
+  manga: Media;
+} | null> => {
   try {
     const response = await fetch(ANILIST_API_URL, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify({ query: QUERY }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('AniList API Error:', errorText);
-      throw new Error('Network response was not ok');
+      console.error("AniList API Error:", errorText);
+      throw new Error("Network response was not ok");
     }
 
     const json: AniListResponse = await response.json();
     return json.data;
   } catch (error) {
-    console.error('Error fetching NANA data:', error);
+    console.error("Error fetching NANA data:", error);
     return null;
   }
 };
@@ -134,25 +137,27 @@ query {
 }
 `;
 
-export const fetchNanaCharacters = async (): Promise<Media['characters'] | null> => {
+export const fetchNanaCharacters = async (): Promise<
+  Media["characters"] | null
+> => {
   try {
     const response = await fetch(ANILIST_API_URL, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify({ query: CHARACTERS_QUERY }),
     });
 
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error("Network response was not ok");
     }
 
     const json = await response.json();
     return json.data.Media.characters;
   } catch (error) {
-    console.error('Error fetching NANA characters:', error);
+    console.error("Error fetching NANA characters:", error);
     return null;
   }
 };

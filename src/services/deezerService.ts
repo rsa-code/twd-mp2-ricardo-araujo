@@ -21,22 +21,41 @@ export interface DeezerAlbum {
   };
 }
 
-const DEEZER_API_URL = 'https://api.deezer.com';
-const CORS_PROXY = 'https://corsproxy.io/?';
+const DEEZER_API_URL = "https://api.deezer.com";
 
-export const fetchDeezerAlbum = async (albumId: string): Promise<DeezerAlbum | null> => {
-  try {
-    const response = await fetch(`${CORS_PROXY}${encodeURIComponent(`${DEEZER_API_URL}/album/${albumId}`)}`);
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+// Try multiple CORS proxies as fallbacks
+const CORS_PROXIES = [
+  "https://api.codetabs.com/v1/proxy?quest=",
+  "https://corsproxy.io/?",
+  "https://proxy.cors.sh/",
+];
+
+export const fetchDeezerAlbum = async (
+  albumId: string,
+): Promise<DeezerAlbum | null> => {
+  const targetUrl = `${DEEZER_API_URL}/album/${albumId}`;
+
+  for (const proxy of CORS_PROXIES) {
+    try {
+      const proxyUrl = proxy.includes("codetabs")
+        ? `${proxy}${targetUrl}`
+        : `${proxy}${encodeURIComponent(targetUrl)}`;
+
+      const response = await fetch(proxyUrl);
+      if (!response.ok) {
+        continue; // Try next proxy
+      }
+      const data = await response.json();
+      if (data.error) {
+        continue; // Try next proxy
+      }
+      return data;
+    } catch (error) {
+      console.warn(`Proxy ${proxy} failed:`, error);
+      continue; // Try next proxy
     }
-    const data = await response.json();
-    if (data.error) {
-        throw new Error(data.error.message);
-    }
-    return data;
-  } catch (error) {
-    console.error('Error fetching Deezer album:', error);
-    return null;
   }
+
+  console.error("All CORS proxies failed for Deezer album");
+  return null;
 };

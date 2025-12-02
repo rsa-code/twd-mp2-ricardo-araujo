@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { fetchNanaVolumes } from '../services/jikanService';
-import { JikanImage } from '../types';
-import { MangaVolumeCard } from '../components/MangaVolumeCard';
-import { LoadingSpinner } from '../components/LoadingSpinner';
+import React, { useEffect, useState } from "react";
+import { fetchNanaVolumes } from "../services/jikanService";
+import { JikanImage } from "../types";
+import { MangaVolumeCard } from "../components/MangaVolumeCard";
+import { LoadingSpinner } from "../components/LoadingSpinner";
 
 export const NanaVolumes: React.FC = () => {
   const [volumes, setVolumes] = useState<JikanImage[]>([]);
@@ -15,7 +15,7 @@ export const NanaVolumes: React.FC = () => {
         const result = await fetchNanaVolumes();
         setVolumes(result);
       } catch (err) {
-        setError('Failed to load Nana volumes');
+        setError("Failed to load Nana volumes");
         console.error(err);
       } finally {
         setLoading(false);
@@ -34,7 +34,7 @@ export const NanaVolumes: React.FC = () => {
             Nana Manga Volumes
           </h1>
         </div>
-        
+
         {error ? (
           <div className="text-center py-20 border border-rose-900/30 bg-rose-950/10">
             <p className="text-rose-500 text-xl font-cinzel">{error}</p>
