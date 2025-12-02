@@ -1,14 +1,17 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // Load from localStorage
 const loadHighlightedIds = (): number[] => {
   try {
-    const stored = localStorage.getItem('highlightedCharacters');
+    const stored = localStorage.getItem("highlightedCharacters");
     if (stored) {
       return JSON.parse(stored);
     }
   } catch (e) {
-    console.error('Failed to load highlighted characters from localStorage:', e);
+    console.error(
+      "Failed to load highlighted characters from localStorage:",
+      e,
+    );
   }
   // Default: the two Nanas
   return [701, 702];
@@ -17,9 +20,9 @@ const loadHighlightedIds = (): number[] => {
 // Save to localStorage
 const saveHighlightedIds = (ids: number[]) => {
   try {
-    localStorage.setItem('highlightedCharacters', JSON.stringify(ids));
+    localStorage.setItem("highlightedCharacters", JSON.stringify(ids));
   } catch (e) {
-    console.error('Failed to save highlighted characters to localStorage:', e);
+    console.error("Failed to save highlighted characters to localStorage:", e);
   }
 };
 
@@ -32,7 +35,7 @@ const initialState: HighlightsState = {
 };
 
 const highlightsSlice = createSlice({
-  name: 'highlights',
+  name: "highlights",
   initialState,
   reducers: {
     toggleHighlight: (state, action: PayloadAction<number>) => {

@@ -1,7 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from './slices/counterSlice';
-import highlightsReducer from './slices/highlightsSlice';
-import { apiSlice } from './slices/apiSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import counterReducer from "./slices/counterSlice";
+import highlightsReducer from "./slices/highlightsSlice";
+import { apiSlice } from "./slices/apiSlice";
 
 export const store = configureStore({
   reducer: {

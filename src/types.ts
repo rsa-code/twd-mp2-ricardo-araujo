@@ -31,7 +31,7 @@ export interface Media {
     english: string;
     native: string;
   };
-  type: 'ANIME' | 'MANGA';
+  type: "ANIME" | "MANGA";
   description: string | null;
   bannerImage: string | null;
   coverImage: {

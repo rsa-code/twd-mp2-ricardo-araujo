@@ -21,24 +21,26 @@ export interface DeezerAlbum {
   };
 }
 
-const DEEZER_API_URL = 'https://api.deezer.com';
+const DEEZER_API_URL = "https://api.deezer.com";
 
 // Try multiple CORS proxies as fallbacks
 const CORS_PROXIES = [
-  'https://api.codetabs.com/v1/proxy?quest=',
-  'https://corsproxy.io/?',
-  'https://proxy.cors.sh/',
+  "https://api.codetabs.com/v1/proxy?quest=",
+  "https://corsproxy.io/?",
+  "https://proxy.cors.sh/",
 ];
 
-export const fetchDeezerAlbum = async (albumId: string): Promise<DeezerAlbum | null> => {
+export const fetchDeezerAlbum = async (
+  albumId: string,
+): Promise<DeezerAlbum | null> => {
   const targetUrl = `${DEEZER_API_URL}/album/${albumId}`;
-  
+
   for (const proxy of CORS_PROXIES) {
     try {
-      const proxyUrl = proxy.includes('codetabs') 
+      const proxyUrl = proxy.includes("codetabs")
         ? `${proxy}${targetUrl}`
         : `${proxy}${encodeURIComponent(targetUrl)}`;
-      
+
       const response = await fetch(proxyUrl);
       if (!response.ok) {
         continue; // Try next proxy
@@ -53,7 +55,7 @@ export const fetchDeezerAlbum = async (albumId: string): Promise<DeezerAlbum | n
       continue; // Try next proxy
     }
   }
-  
-  console.error('All CORS proxies failed for Deezer album');
+
+  console.error("All CORS proxies failed for Deezer album");
   return null;
 };

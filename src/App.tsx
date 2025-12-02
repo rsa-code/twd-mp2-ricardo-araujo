@@ -1,11 +1,11 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Home } from './pages/Home';
-import { JikanEpisodes } from './pages/JikanEpisodes';
-import { NanaVolumes } from './pages/NanaVolumes';
-import { NanaCharacters } from './pages/NanaCharacters';
-import { NanaBands } from './pages/NanaBands';
-import { Navbar } from './components/Navbar';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Home } from "./pages/Home";
+import { JikanEpisodes } from "./pages/JikanEpisodes";
+import { NanaVolumes } from "./pages/NanaVolumes";
+import { NanaCharacters } from "./pages/NanaCharacters";
+import { NanaBands } from "./pages/NanaBands";
+import { Navbar } from "./components/Navbar";
 
 const App: React.FC = () => {
   return (
