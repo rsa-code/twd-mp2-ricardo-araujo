@@ -5,6 +5,7 @@ import { JikanEpisodes } from "./pages/JikanEpisodes";
 import { NanaVolumes } from "./pages/NanaVolumes";
 import { NanaCharacters } from "./pages/NanaCharacters";
 import { NanaBands } from "./pages/NanaBands";
+import { NanaQuotes } from "./pages/NanaQuotes";
 import { Navbar } from "./components/Navbar";
 
 const App: React.FC = () => {
@@ -16,6 +17,7 @@ const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/characters" element={<NanaCharacters />} />
           <Route path="/bands" element={<NanaBands />} />
+          <Route path="/quotes" element={<NanaQuotes />} />
           <Route path="/jikan-episodes" element={<JikanEpisodes />} />
           <Route path="/nana-volumes" element={<NanaVolumes />} />
         </Routes>

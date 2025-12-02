@@ -16,13 +16,12 @@ export const fetchJikanEpisodes = async (
     return json.data || [];
   } catch (error) {
     console.error("Error fetching Jikan episodes:", error);
-    throw error; // Re-throw to let the component handle it
+    throw error;
   }
 };
 
 export const fetchNanaVolumes = async (): Promise<JikanImage[]> => {
   try {
-    // Nana Manga ID is 28
     const [detailsResponse, picturesResponse] = await Promise.all([
       fetch(`${JIKAN_API_BASE}/manga/28`),
       fetch(`${JIKAN_API_BASE}/manga/28/pictures`),
@@ -39,11 +38,9 @@ export const fetchNanaVolumes = async (): Promise<JikanImage[]> => {
     const mainImage = detailsJson.data.images;
     const pictures = picturesJson.data || [];
 
-    // Create an array of the total volumes
     const allVolumes: JikanImage[] = Array.from(
       { length: totalVolumes },
       (_, index) => {
-        // Use specific picture if available, otherwise use main cover
         if (index < pictures.length) {
           return pictures[index];
         }

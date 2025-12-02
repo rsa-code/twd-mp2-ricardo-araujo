@@ -19,6 +19,7 @@ export const Navbar: React.FC = () => {
     { name: "Home", href: "/" },
     { name: "Characters", href: "/characters" },
     { name: "Bands", href: "/bands" },
+    { name: "Quotes", href: "/quotes" },
     { name: "Anime Episodes", href: "/jikan-episodes" },
     { name: "Manga Volumes", href: "/nana-volumes" },
   ];

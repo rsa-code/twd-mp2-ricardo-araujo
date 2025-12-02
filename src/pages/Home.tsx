@@ -1,32 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { fetchNanaData } from "../services/anilistService";
-import { Media } from "../types";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useGetNanaMediaQuery } from "../store/slices/apiSlice";
+import { setHomeActiveTab } from "../store/slices/preferencesSlice";
+import { RootState } from "../store";
 import { MediaCard } from "../components/MediaCard";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 
 export const Home: React.FC = () => {
-  const [data, setData] = useState<{ anime: Media; manga: Media } | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"anime" | "manga">("anime");
+  const dispatch = useDispatch();
+  const { data, isLoading, isError } = useGetNanaMediaQuery();
+  const activeTab = useSelector(
+    (state: RootState) => state.preferences.homeActiveTab,
+  );
 
-  useEffect(() => {
-    const init = async () => {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        const result = await fetchNanaData();
-        setData(result);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    init();
-  }, []);
+  if (isLoading) return <LoadingSpinner />;
 
-  if (loading) return <LoadingSpinner />;
-
-  if (!data)
+  if (isError || !data)
     return (
       <div className="h-screen flex flex-col items-center justify-center bg-zinc-950 text-rose-600">
         <p className="mt-4 font-cinzel text-xl">
@@ -66,13 +55,13 @@ export const Home: React.FC = () => {
         <section>
           <div className="flex justify-center mb-12 space-x-8">
             <button
-              onClick={() => setActiveTab("anime")}
+              onClick={() => dispatch(setHomeActiveTab("anime"))}
               className={`text-2xl font-cinzel font-bold transition-all duration-300 ${activeTab === "anime" ? "text-rose-600 border-b-2 border-rose-600" : "text-zinc-600 hover:text-zinc-300"}`}
             >
               The Anime
             </button>
             <button
-              onClick={() => setActiveTab("manga")}
+              onClick={() => dispatch(setHomeActiveTab("manga"))}
               className={`text-2xl font-cinzel font-bold transition-all duration-300 ${activeTab === "manga" ? "text-rose-600 border-b-2 border-rose-600" : "text-zinc-600 hover:text-zinc-300"}`}
             >
               The Manga
