@@ -1,44 +1,53 @@
-import React, { useEffect, useState, useMemo } from "react";
-import { fetchJikanEpisodes } from "../services/jikanService";
-import { JikanEpisode } from "../types";
+import React, { useMemo } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useGetJikanEpisodesQuery } from "../store/slices/apiSlice";
+import {
+  setEpisodeSortBy,
+  setEpisodeFilterMode,
+  resetEpisodeFilters,
+  nextEpisodePage,
+  prevEpisodePage,
+  EpisodeSortBy,
+  EpisodeFilterMode,
+} from "../store/slices/filtersSlice";
+import {
+  selectFavoriteCount,
+  selectWatchedCount,
+} from "../store/slices/favoritesSlice";
+import { RootState } from "../store";
 import { JikanEpisodeCard } from "../components/JikanEpisodeCard";
 import { LoadingSpinner } from "../components/LoadingSpinner";
-import { Filter, ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Heart, Eye, Filter } from "lucide-react";
 
 export const JikanEpisodes: React.FC = () => {
-  const [episodes, setEpisodes] = useState<JikanEpisode[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sortBy, setSortBy] = useState<
-    "date-asc" | "date-desc" | "rating-desc" | "rating-asc"
-  >("date-asc");
-  const [minRating, setMinRating] = useState(0);
-  const itemsPerPage = 7;
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const init = async () => {
-      try {
-        const result = await fetchJikanEpisodes();
-        setEpisodes(result);
-      } catch (err) {
-        setError("Failed to load episodes from Jikan API");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    init();
-  }, []);
+  const { sortBy, minRating, currentPage, itemsPerPage, filterMode } =
+    useSelector((state: RootState) => state.filters.episodes);
 
-  // Reset to page 1 when filters change
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [sortBy, minRating]);
+  const favoriteCount = useSelector(selectFavoriteCount);
+  const watchedCount = useSelector(selectWatchedCount);
+  const favoriteEpisodes = useSelector(
+    (state: RootState) => state.favorites.episodes,
+  );
+
+  const {
+    data: episodes = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useGetJikanEpisodesQuery();
 
   const processedEpisodes = useMemo(() => {
-    return episodes
+    return [...episodes]
       .filter((ep) => (ep.score || 0) >= minRating)
+      .filter((ep) => {
+        const status = favoriteEpisodes[ep.mal_id];
+        if (filterMode === "favorites") return status?.isFavorite === true;
+        if (filterMode === "watched") return status?.isWatched === true;
+        if (filterMode === "unwatched") return !status?.isWatched;
+        return true;
+      })
       .sort((a, b) => {
         if (sortBy === "rating-desc") return (b.score || 0) - (a.score || 0);
         if (sortBy === "rating-asc") return (a.score || 0) - (b.score || 0);
@@ -49,7 +58,7 @@ export const JikanEpisodes: React.FC = () => {
         if (sortBy === "date-desc") return dateB - dateA;
         return dateA - dateB;
       });
-  }, [episodes, sortBy, minRating]);
+  }, [episodes, sortBy, minRating, filterMode, favoriteEpisodes]);
 
   const totalPages = Math.ceil(processedEpisodes.length / itemsPerPage);
   const currentEpisodes = processedEpisodes.slice(
@@ -57,7 +66,27 @@ export const JikanEpisodes: React.FC = () => {
     currentPage * itemsPerPage,
   );
 
-  if (loading) return <LoadingSpinner />;
+  const handleSortChange = (newSort: EpisodeSortBy) => {
+    dispatch(setEpisodeSortBy(newSort));
+  };
+
+  const handleFilterModeChange = (mode: EpisodeFilterMode) => {
+    dispatch(setEpisodeFilterMode(mode));
+  };
+
+  const handleReset = () => {
+    dispatch(resetEpisodeFilters());
+  };
+
+  const handleNextPage = () => {
+    dispatch(nextEpisodePage(totalPages));
+  };
+
+  const handlePrevPage = () => {
+    dispatch(prevEpisodePage());
+  };
+
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 pt-24 pb-12 px-4 md:px-8">
@@ -72,7 +101,9 @@ export const JikanEpisodes: React.FC = () => {
               <ArrowUpDown size={16} className="text-rose-600" />
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
+                onChange={(e) =>
+                  handleSortChange(e.target.value as EpisodeSortBy)
+                }
                 className="bg-zinc-900 border-none focus:ring-0 text-white text-sm cursor-pointer outline-none"
               >
                 <option value="date-asc" className="bg-zinc-900 text-white">
@@ -90,11 +121,29 @@ export const JikanEpisodes: React.FC = () => {
               </select>
             </div>
 
+            <div className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 px-3 py-2 rounded">
+              <Filter size={16} className="text-rose-600" />
+              <select
+                value={filterMode}
+                onChange={(e) =>
+                  handleFilterModeChange(e.target.value as EpisodeFilterMode)
+                }
+                className="bg-zinc-900 border-none focus:ring-0 text-white text-sm cursor-pointer outline-none"
+              >
+                <option value="all" className="bg-zinc-900 text-white">
+                  All Episodes
+                </option>
+                <option value="favorites" className="bg-zinc-900 text-white">Favorites Only
+                </option>
+                <option value="watched" className="bg-zinc-900 text-white">Watched Only
+                </option>
+                <option value="unwatched" className="bg-zinc-900 text-white">Unwatched Only
+                </option>
+              </select>
+            </div>
+
             <button
-              onClick={() => {
-                setMinRating(0);
-                setSortBy("date-asc");
-              }}
+              onClick={handleReset}
               className="px-4 py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors rounded text-sm font-cinzel"
             >
               Reset
@@ -102,11 +151,13 @@ export const JikanEpisodes: React.FC = () => {
           </div>
         </div>
 
-        {error ? (
+        {isError ? (
           <div className="text-center py-20 border border-rose-900/30 bg-rose-950/10 flex flex-col items-center gap-4">
-            <p className="text-rose-500 text-xl font-cinzel">{error}</p>
+            <p className="text-rose-500 text-xl font-cinzel">
+              Failed to load episodes from Jikan API
+            </p>
             <button
-              onClick={() => window.location.reload()}
+              onClick={() => refetch()}
               className="px-6 py-2 bg-rose-900/20 border border-rose-800 text-rose-200 hover:bg-rose-900/40 transition-colors rounded font-cinzel"
             >
               Retry
@@ -114,6 +165,27 @@ export const JikanEpisodes: React.FC = () => {
           </div>
         ) : (
           <>
+            <div className="flex flex-wrap items-center gap-4 mb-6">
+              <p className="text-zinc-500 text-sm">
+                Showing {currentEpisodes.length} of {processedEpisodes.length}{" "}
+                episodes
+                {minRating > 0 && ` (filtered by rating ≥ ${minRating})`}
+              </p>
+
+              <div className="flex items-center gap-4 ml-auto">
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="text-zinc-400">
+                    <span className="text-rose-400 font-bold">{favoriteCount}</span> favorites
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="text-zinc-400">
+                    <span className="text-emerald-400 font-bold">{watchedCount}</span> watched
+                  </span>
+                </div>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6">
               {currentEpisodes.length > 0 ? (
                 currentEpisodes.map((episode) => (
@@ -133,9 +205,7 @@ export const JikanEpisodes: React.FC = () => {
             {processedEpisodes.length > itemsPerPage && (
               <div className="flex justify-center items-center mt-12 gap-4">
                 <button
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.max(prev - 1, 1))
-                  }
+                  onClick={handlePrevPage}
                   disabled={currentPage === 1}
                   className="px-6 py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-cinzel text-sm"
                 >
@@ -147,9 +217,7 @@ export const JikanEpisodes: React.FC = () => {
                 </span>
 
                 <button
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                  }
+                  onClick={handleNextPage}
                   disabled={currentPage === totalPages}
                   className="px-6 py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-cinzel text-sm"
                 >

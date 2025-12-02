@@ -23,7 +23,6 @@ export interface DeezerAlbum {
 
 const DEEZER_API_URL = "https://api.deezer.com";
 
-// Try multiple CORS proxies as fallbacks
 const CORS_PROXIES = [
   "https://api.codetabs.com/v1/proxy?quest=",
   "https://corsproxy.io/?",

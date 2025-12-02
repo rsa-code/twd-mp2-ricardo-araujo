@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// Load from localStorage
 const loadHighlightedIds = (): number[] => {
   try {
     const stored = localStorage.getItem("highlightedCharacters");
@@ -13,11 +12,9 @@ const loadHighlightedIds = (): number[] => {
       e,
     );
   }
-  // Default: the two Nanas
   return [701, 702];
 };
 
-// Save to localStorage
 const saveHighlightedIds = (ids: number[]) => {
   try {
     localStorage.setItem("highlightedCharacters", JSON.stringify(ids));

@@ -1,30 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { fetchNanaVolumes } from "../services/jikanService";
-import { JikanImage } from "../types";
+import React from "react";
+import { useGetNanaVolumesQuery } from "../store/slices/apiSlice";
 import { MangaVolumeCard } from "../components/MangaVolumeCard";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 
 export const NanaVolumes: React.FC = () => {
-  const [volumes, setVolumes] = useState<JikanImage[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: volumes = [], isLoading, isError } = useGetNanaVolumesQuery();
 
-  useEffect(() => {
-    const loadVolumes = async () => {
-      try {
-        const result = await fetchNanaVolumes();
-        setVolumes(result);
-      } catch (err) {
-        setError("Failed to load Nana volumes");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadVolumes();
-  }, []);
-
-  if (loading) return <LoadingSpinner />;
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 pt-24 pb-12 px-4 md:px-8">
@@ -35,9 +17,11 @@ export const NanaVolumes: React.FC = () => {
           </h1>
         </div>
 
-        {error ? (
+        {isError ? (
           <div className="text-center py-20 border border-rose-900/30 bg-rose-950/10">
-            <p className="text-rose-500 text-xl font-cinzel">{error}</p>
+            <p className="text-rose-500 text-xl font-cinzel">
+              Failed to load Nana volumes
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
