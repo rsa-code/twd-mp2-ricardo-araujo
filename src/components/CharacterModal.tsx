@@ -9,7 +9,6 @@ interface CharacterModalProps {
 }
 
 export const CharacterModal: React.FC<CharacterModalProps> = ({ character, role, onClose }) => {
-  // Prevent body scroll when modal is open
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -22,13 +21,10 @@ export const CharacterModal: React.FC<CharacterModalProps> = ({ character, role,
     
     let cleaned = desc;
 
-    // Remove Markdown style fields at the start (e.g., __Height:__ 158cm)
-    // We match __Key:__ followed by text, until we hit another __, a break, or end of string
-    // Using a loop to peel off fields one by one from the start
     while (true) {
       const prev = cleaned;
       cleaned = cleaned.replace(/^(__.*?__|<(strong|b)>.*?<\/(strong|b)>).*?(?=(__|<(strong|b)>|<br|\n|$))/i, '');
-      cleaned = cleaned.replace(/^(<br\s*\/?>|\s)+/i, ''); // Clean breaks between fields
+      cleaned = cleaned.replace(/^(<br\s*\/?>|\s)+/i, '');
       if (cleaned === prev) break;
     }
 

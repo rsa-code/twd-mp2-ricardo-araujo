@@ -4,15 +4,17 @@ const JIKAN_API_BASE = 'https://api.jikan.moe/v4';
 
 export const fetchJikanEpisodes = async (malId: number = 877): Promise<JikanEpisode[]> => {
   try {
+    console.log(`Fetching Jikan episodes for MAL ID: ${malId}`);
     const response = await fetch(`${JIKAN_API_BASE}/anime/${malId}/episodes`);
     if (!response.ok) {
-      throw new Error('Failed to fetch episodes from Jikan');
+      throw new Error(`Jikan API Error: ${response.statusText}`);
     }
     const json = await response.json();
+    console.log('Jikan response:', json);
     return json.data || [];
   } catch (error) {
     console.error('Error fetching Jikan episodes:', error);
-    return [];
+    throw error; // Re-throw to let the component handle it
   }
 };
 

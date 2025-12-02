@@ -12,7 +12,7 @@ const BANDS = [
     id: 'blast',
     name: 'Black Stones',
     alias: 'BLAST',
-    description: 'A punk band formed by Nana Osaki and Nobuo Terashima in their hometown.',
+    description: 'A punk band formed by Ren Honjo and Yasushi Takagi, later joined by Nana Osaki, Nobuo Terashima, and Shinichi Okazaki.',
     members: [
       { id: 702, role: 'Vocals' },      // Nana Osaki
       { id: 2449, role: 'Guitar' },     // Nobuo Terashima
@@ -113,11 +113,9 @@ export const NanaBands: React.FC = () => {
               })}
             </div>
 
-            {band.id === 'blast' && album && (
+              {band.id === 'blast' && album && (
               <div className="border-t border-zinc-800 pt-4">
-                <div className="max-w-2xl">
-                  <AlbumCard album={album} />
-                </div>
+                <AlbumCard album={album} />
               </div>
             )}
           </div>

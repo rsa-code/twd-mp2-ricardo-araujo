@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Star, ExternalLink } from 'lucide-react';
+import { Calendar, Star } from 'lucide-react';
 import { JikanEpisode } from '../types';
 
 interface JikanEpisodeCardProps {
@@ -7,11 +7,25 @@ interface JikanEpisodeCardProps {
 }
 
 export const JikanEpisodeCard: React.FC<JikanEpisodeCardProps> = ({ episode }) => {
-  const date = new Date(episode.aired).toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  if (!episode) return null;
+
+  let date = 'Unknown Date';
+  try {
+    if (episode.aired) {
+      const d = new Date(episode.aired);
+      if (!isNaN(d.getTime())) {
+        date = d.toLocaleDateString(undefined, {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
+      }
+    }
+  } catch (e) {
+    console.error('Error parsing date:', episode.aired);
+  }
+
+  const episodeNumber = episode.mal_id ? episode.mal_id.toString().padStart(2, '0') : '??';
 
   return (
     <div className="bg-zinc-900/50 border border-zinc-800 p-6 hover:border-rose-600/50 transition-all duration-300 group relative overflow-hidden">
@@ -19,14 +33,14 @@ export const JikanEpisodeCard: React.FC<JikanEpisodeCardProps> = ({ episode }) =
       <div className="flex flex-col gap-4">
         <div className="flex items-baseline gap-4">
           <span className="text-5xl font-black text-zinc-800 group-hover:text-rose-900/30 transition-colors font-cinzel">
-            {episode.mal_id.toString().padStart(2, '0')}
+            {episodeNumber}
           </span>
           <div className="flex-1">
             <h3 className="text-xl font-bold text-zinc-200 group-hover:text-rose-500 transition-colors line-clamp-1">
-              {episode.title}
+              {episode.title || 'Untitled'}
             </h3>
             <p className="text-sm text-zinc-500 font-serif italic">
-              {episode.title_japanese}
+              {episode.title_japanese || ''}
             </p>
           </div>
         </div>
